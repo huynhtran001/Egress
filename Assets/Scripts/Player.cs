@@ -6,22 +6,28 @@ public class Player : MonoBehaviour
 {
     private CharacterController controller;
     [SerializeField] float movementSpeed = 10f;
+    [SerializeField] float jumpPower = 2f;
     [SerializeField] float maxInteractionDistance = 7f;
     [Tooltip("Controls how much force is applied to throwing objects")]
-    [SerializeField] float forceMultiplier = 10f;
+    [SerializeField] float forceMultiplier = 100f;
 
     // Offset is used to adjust the distance for ground check. We want to find
     // the minimum value here, but still > 0. Must play around with jumping
     // in game to find a value that works fluidly
     private float raycastMaxDist;
-    private const float raycastOffset = 0.1f;
+    [SerializeField] float raycastOffset = 0.4f;
 
     // for use with gravity
     private Vector3 currentFallingVelocity = new Vector3(0, -0.2f, 0);
     private bool grounded;
+    private bool isJumping = false;
+    private float jumpingLength = 0f;
 
     // Global references to things we need to move the interactable around
     private GameObject heldObject = null;
+
+    [Tooltip("Controls how long the player jumps for when jump is pressed")]
+    [SerializeField] float secondsToApplyForce = 0.5f;
 
     private void Start()
     {
@@ -33,7 +39,7 @@ public class Player : MonoBehaviour
     {
         RaycastDebugLines();
         Interact();
-
+        Jump();
     }
 
     private void FixedUpdate()
@@ -119,7 +125,6 @@ public class Player : MonoBehaviour
         // Gameplay feels better without the 1/2
         
         currentFallingVelocity += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
-        controller.Move(currentFallingVelocity);
     }
 
     private void BasicMovement()
@@ -131,8 +136,27 @@ public class Player : MonoBehaviour
         // use transform.right/forward to get that direction for us
         Vector3 direction = transform.right * xMove + transform.forward * zMove;
         direction *= movementSpeed * Time.fixedDeltaTime;
-
+        direction.y = currentFallingVelocity.y;
         controller.Move(direction);
+    }
+
+    private void Jump()
+    {
+        if (grounded && Input.GetButtonDown("Jump"))
+        {
+            isJumping = true;
+        }
+
+        if (isJumping)
+        {
+            controller.Move(Vector3.up * jumpPower);
+            jumpingLength += Time.deltaTime;
+            if (jumpingLength >= secondsToApplyForce)
+            {
+                isJumping = false;
+                jumpingLength = 0f;
+            }
+        }
     }
 
     private void RaycastDebugLines()
