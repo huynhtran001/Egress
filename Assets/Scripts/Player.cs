@@ -122,9 +122,7 @@ public class Player : MonoBehaviour
     private void ApplyGravity()
     {
         // Freefall formula = 1/2 * g * t^2
-        // Gameplay feels better without the 1/2
-        
-        currentFallingVelocity += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
+        currentFallingVelocity += Physics.gravity * 0.5f * Time.fixedDeltaTime * Time.fixedDeltaTime;
     }
 
     private void BasicMovement()
@@ -137,6 +135,20 @@ public class Player : MonoBehaviour
         Vector3 direction = transform.right * xMove + transform.forward * zMove;
         direction *= movementSpeed * Time.fixedDeltaTime;
         direction.y = currentFallingVelocity.y;
+
+        // If player is jumping, apply this to y instead. If player
+        // isn't jumping, keep y values
+        if (isJumping)
+        {
+            direction.y = Vector3.up.y * jumpPower;
+            jumpingLength += Time.deltaTime;
+            if (jumpingLength >= secondsToApplyForce)
+            {
+                isJumping = false;
+                jumpingLength = 0f;
+            }
+        }
+
         controller.Move(direction);
     }
 
@@ -147,16 +159,6 @@ public class Player : MonoBehaviour
             isJumping = true;
         }
 
-        if (isJumping)
-        {
-            controller.Move(Vector3.up * jumpPower);
-            jumpingLength += Time.deltaTime;
-            if (jumpingLength >= secondsToApplyForce)
-            {
-                isJumping = false;
-                jumpingLength = 0f;
-            }
-        }
     }
 
     private void RaycastDebugLines()
