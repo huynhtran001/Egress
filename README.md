@@ -1,7 +1,5 @@
-# EgressPoC
-Proof of concept for the core mechanics and features of a 3D Unity game
-
-These are the barebone features of a 3D unity game that the game will be focused on using.
+# Egress
+This is a 3D puzzle-platformer video game created in Unity Engine with a unique mechanic -- the ability to freeze objects in place and navigating around levels using this core mechanic.
 
 Requirements: Unity / UnityHub (this build version is 2019.3.3f1)
 
