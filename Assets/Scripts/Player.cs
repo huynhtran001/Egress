@@ -56,17 +56,18 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             // sends out a raycast where the Camera is pointing
-            RaycastHit hit;
+            RaycastHit[] hits;
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            Physics.Raycast(ray, out hit, maxInteractionDistance);
+            hits = Physics.RaycastAll(ray, maxInteractionDistance);
             
-            if (hit.collider == null) return;
-
-            if (hit.collider.CompareTag("Interactable"))
+            foreach (RaycastHit hit in hits)
             {
-                heldObject = hit.collider.gameObject;
-                Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-                rb.useGravity = false;
+                if (hit.collider.CompareTag("Interactable"))
+                {
+                    heldObject = hit.collider.gameObject;
+                    Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+                    rb.useGravity = false;
+                }
             }
         }
 
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
     {
         if (!heldObject) return;
 
-        heldObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3;
+        heldObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 7;
     }
 
     // Purpose is twofold: 1) reset gravity when player lands
