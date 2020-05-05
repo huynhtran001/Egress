@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     // Global references to things we need to move the interactable around
     private GameObject heldObject = null;
-    public List<GameObject> frozenObjects;
+    private List<GameObject> frozenObjects;
 
     [Tooltip("Controls how long the player jumps for when jump is pressed")]
     [SerializeField] float secondsToApplyForce = 0.5f;
@@ -92,6 +92,14 @@ public class Player : MonoBehaviour
     }
 
     // helper function
+    private void UnfreezeObject(GameObject item)
+    {
+        Rigidbody rb = item.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        frozenObjects.Remove(item);
+    }
+
+    // helper function
     private void FreezeObject()
     {
         // Freeze object by making it kinematic
@@ -107,6 +115,13 @@ public class Player : MonoBehaviour
     // helper function
     private void PickUpObject()
     {
+        // If already holding onto something, release the object gently
+        if (heldObject)
+        {
+            ReleaseObject();
+            return;
+        }
+
         // sends out a raycast where the Camera is pointing
         RaycastHit[] hits;
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -117,6 +132,8 @@ public class Player : MonoBehaviour
             if (hit.collider.CompareTag("Interactable"))
             {
                 heldObject = hit.collider.gameObject;
+                // Check to see if frozen. If it is, unfreeze to throw.
+                UnfreezeObject(heldObject);
                 Rigidbody rb = heldObject.GetComponent<Rigidbody>();
                 rb.useGravity = false;
             }
@@ -124,6 +141,15 @@ public class Player : MonoBehaviour
     }
 
     // helper function
+    private void ReleaseObject()
+    {
+        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+        rb.useGravity = true;
+        heldObject = null;
+    }
+
+    // helper function
+    // Note: remember to give the object some mass. ~300 is good
     private void ThrowObject()
     {
         // We want to launch the object
