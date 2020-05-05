@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     // Global references to things we need to move the interactable around
     private GameObject heldObject = null;
+    public List<GameObject> frozenObjects;
 
     [Tooltip("Controls how long the player jumps for when jump is pressed")]
     [SerializeField] float secondsToApplyForce = 0.5f;
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         raycastMaxDist = controller.bounds.extents.y;
+
+        frozenObjects = new List<GameObject>();
     }
 
     private void Update()
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
         RaycastDebugLines();
         Interact();
         Jump();
+        MoveObject();
     }
 
     private void FixedUpdate()
@@ -51,40 +55,89 @@ public class Player : MonoBehaviour
 
     private void Interact()
     {
-        MoveObject();
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // sends out a raycast where the Camera is pointing
-            RaycastHit[] hits;
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            hits = Physics.RaycastAll(ray, maxInteractionDistance);
-            
-            foreach (RaycastHit hit in hits)
-            {
-                if (hit.collider.CompareTag("Interactable"))
-                {
-                    heldObject = hit.collider.gameObject;
-                    Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-                    rb.useGravity = false;
-                }
-            }
+            PickUpObject();
         }
 
         if (heldObject && Input.GetMouseButtonDown(0))
         {
-            // We want to launch the object
-            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-            
-            // Make global ref null so MoveObject() doesn't override the object's position
-            heldObject = null;
+            ThrowObject();
+        }
 
-            Vector3 forceDirection = Camera.main.transform.forward;
-            rb.useGravity = true;
-            rb.AddForce(forceDirection * forceMultiplier, ForceMode.Impulse);
+        if (heldObject && Input.GetKeyDown(KeyCode.F))
+        {
+            FreezeObject();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            UnfreezeAllObjects();
         }
     }
-    
+
+    // helper function
+    private void UnfreezeAllObjects()
+    {
+        foreach (GameObject item in frozenObjects)
+        {
+            Rigidbody rb = item.GetComponent<Rigidbody>();
+            if (rb)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
+        }
+        frozenObjects.Clear();
+    }
+
+    // helper function
+    private void FreezeObject()
+    {
+        // Freeze object by making it kinematic
+        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+        if (rb) rb.isKinematic = true;
+
+        // Add to list of frozen objects, then also set reference to current held
+        // object to null
+        frozenObjects.Add(heldObject);
+        heldObject = null;
+    }
+
+    // helper function
+    private void PickUpObject()
+    {
+        // sends out a raycast where the Camera is pointing
+        RaycastHit[] hits;
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        hits = Physics.RaycastAll(ray, maxInteractionDistance);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag("Interactable"))
+            {
+                heldObject = hit.collider.gameObject;
+                Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+                rb.useGravity = false;
+            }
+        }
+    }
+
+    // helper function
+    private void ThrowObject()
+    {
+        // We want to launch the object
+        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+
+        // Make global ref null so MoveObject() doesn't override the object's position
+        heldObject = null;
+
+        Vector3 forceDirection = Camera.main.transform.forward;
+        rb.useGravity = true;
+        rb.AddForce(forceDirection * forceMultiplier, ForceMode.Impulse);
+    }
+
+
     private void MoveObject()
     {
         if (!heldObject) return;
