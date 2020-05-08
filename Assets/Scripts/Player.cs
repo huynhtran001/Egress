@@ -5,11 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private CharacterController controller;
-    [SerializeField] float movementSpeed = 10f;
-    [SerializeField] float jumpPower = 2f;
+    [SerializeField] float movementSpeed = 15f;
+    [SerializeField] float jumpPower = 0.1f;
+    [Tooltip("Controls how long the player jumps for when jump is pressed")]
+    [SerializeField] float secondsToApplyJump = 0.5f;
     [SerializeField] float maxInteractionDistance = 7f;
     [Tooltip("Controls how much force is applied to throwing objects")]
-    [SerializeField] float forceMultiplier = 100f;
+    [SerializeField] float forceMultiplier = 5000f;
 
     // Offset is used to adjust the distance for ground check. We want to find
     // the minimum value here, but still > 0. Must play around with jumping
@@ -26,9 +28,6 @@ public class Player : MonoBehaviour
     // Global references to things we need to move the interactable around
     private GameObject heldObject = null;
     private List<GameObject> frozenObjects;
-
-    [Tooltip("Controls how long the player jumps for when jump is pressed")]
-    [SerializeField] float secondsToApplyForce = 0.5f;
 
     private void Start()
     {
@@ -222,7 +221,7 @@ public class Player : MonoBehaviour
         {
             direction.y = Vector3.up.y * jumpPower;
             jumpingLength += Time.deltaTime;
-            if (jumpingLength >= secondsToApplyForce)
+            if (jumpingLength >= secondsToApplyJump)
             {
                 isJumping = false;
                 jumpingLength = 0f;
