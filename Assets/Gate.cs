@@ -7,8 +7,8 @@ public class Gate : MonoBehaviour
     [SerializeField] Transform rightDoor;
 
     [Tooltip("Slides doors open. Takes in a multiplier of how much")]
-    [SerializeField] float leftDoorOffset = 7f;
-    [SerializeField] float rightDoorOffset = 7f;
+    [SerializeField] float leftDoorOffset = 1.25f;
+    [SerializeField] float rightDoorOffset = 1.25f;
     [Tooltip("How fast the door opens")]
     [Range(0, 1)]
     [SerializeField] float lerpModifier = 1f;
@@ -20,7 +20,7 @@ public class Gate : MonoBehaviour
     private Vector3 oldRightPos;
     private Vector3 newLeftPos;
     private Vector3 newRightPos;
-    public bool stillLocked = true;
+    private bool stillLocked = true;
 
     private void Start()
     {

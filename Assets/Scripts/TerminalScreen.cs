@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class TerminalScreen : MonoBehaviour
 {
     [Tooltip("Not case sensitive")]
-    [SerializeField] Gate gateToOpen;
+    [SerializeField] LastDoor doorToOpen;
     [SerializeField] string password;
     [Tooltip("Drag the main text object to be changed here")]
     [SerializeField] Text terminalText;
@@ -54,7 +54,7 @@ public class TerminalScreen : MonoBehaviour
         {
             if (inputText.text.ToUpper().Equals(password.ToUpper()))
             {
-                gateToOpen.OpenGates();
+                doorToOpen.OpenDoor();
                 CloseTerminal();
             }
         }
