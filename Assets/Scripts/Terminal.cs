@@ -12,6 +12,7 @@ public class Terminal : MonoBehaviour
 
     // Position of the game object that the script is attached to
     // Intended use with terminals
+    [Tooltip("GameObject the script is attached to")]
     [SerializeField] GameObject terminal;
 
     [Tooltip("Shape of the detection range (Turn on gizmos)")]
