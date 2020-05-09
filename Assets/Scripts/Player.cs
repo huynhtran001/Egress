@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    private GameManager gameManager;
     private CharacterController controller;
     [SerializeField] float movementSpeed = 15f;
     [SerializeField] float jumpPower = 0.1f;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
 
         frozenObjects = new List<GameObject>();
         playerState = PlayerState.Alive;
+
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
@@ -80,7 +84,9 @@ public class Player : MonoBehaviour
     }
 
     // Called from other gameobjects when the player steps into collision range
-    public void WithinRange(string otherTag)
+    // passes along text to game manager to display
+    // Reason is because we need to meet 2 "conditions" based on terminal and player script
+    public void WithinRange(string otherTag, Text text)
     {
         RaycastHit[] hits;
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -89,13 +95,17 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.CompareTag(otherTag))
             {
-                
+                gameManager.DisplayText(text);
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    print("TODO: Create terminal hud");
+
                 }
+
+                return;
             }
         }
+        gameManager.HideText(text);
     }
 
     // helper function

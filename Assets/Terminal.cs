@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Terminal : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
+    [Tooltip("Text to display from canvas (if any)")]
+    [SerializeField] Text text;
+
     // Position of the game object that the script is attached to
     // Intended use with terminals
     [SerializeField] GameObject terminal;
@@ -13,10 +18,11 @@ public class Terminal : MonoBehaviour
     [Tooltip("Offset of the detection range (Turn on gizmos)")]
     [SerializeField] Vector3 offsetFromObject = new Vector3(0, 1f, 2.5f);
 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -47,9 +53,12 @@ public class Terminal : MonoBehaviour
                 // sends raycast where ever the player is looking only when they're standing
                 // within the overlap range.
                 Player player = collider.GetComponent<Player>();
-                player.WithinRange(this.gameObject.tag);
+                player.WithinRange(this.gameObject.tag, text);
+                return;
             }
         }
+
+        gameManager.HideText(text);
     }
 
     private void OnDrawGizmos()
