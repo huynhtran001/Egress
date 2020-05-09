@@ -33,14 +33,14 @@ public class AudioManager : MonoBehaviour
     public void PlayCurrentLevelMusic()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
-        PlayClip(clips[currentScene]);
+        if (currentScene < clips.Length) PlayClip(clips[currentScene]);
     }
 
     // Call after loading next scene
     public void PlayNextLevelMusic()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex + 1;
-        PlayClip(clips[currentScene]);
+        if (currentScene < clips.Length) PlayClip(clips[currentScene]);
     }
 
     // Plays the audioclip passed into this function

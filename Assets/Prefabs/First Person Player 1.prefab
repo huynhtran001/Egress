@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2179606032680044677}
   - component: {fileID: 2179606032680044676}
   - component: {fileID: 2179606032680044675}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: First Person Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2179606032680044679}
-  m_LocalRotation: {x: -0, y: 0.85991395, z: -0, w: 0.5104391}
+  m_LocalRotation: {x: 0, y: 0.85991466, z: 0, w: 0.5104379}
   m_LocalPosition: {x: 3.69, y: 2.98, z: 0.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -69,7 +69,7 @@ MonoBehaviour:
   secondsToApplyJump: 0.5
   maxInteractionDistance: 7
   forceMultiplier: 5000
-  raycastOffset: 0.4
+  raycastOffset: 0.5
 --- !u!1 &2179606033434395703
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 2179606034069459557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.44, z: 1}
+  m_LocalScale: {x: 1, y: 1.08, z: 1}
   m_Children: []
   m_Father: {fileID: 2179606032680044677}
   m_RootOrder: 0
