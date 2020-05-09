@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
     // For use with the big gate with 2 sliding doors
-    [SerializeField] Transform itself;
     [SerializeField] Transform leftDoor;
     [SerializeField] Transform rightDoor;
 
@@ -23,7 +20,7 @@ public class Gate : MonoBehaviour
     private Vector3 oldRightPos;
     private Vector3 newLeftPos;
     private Vector3 newRightPos;
-    private bool stillLocked = true;
+    public bool stillLocked = true;
 
     private void Start()
     {
@@ -39,16 +36,16 @@ public class Gate : MonoBehaviour
     private void ApplyOpening()
     {
         if (lerpPct <= 1f) lerpPct = lerpPct + lerpModifier * Time.deltaTime;
-        leftDoor.position = Vector3.Lerp(oldLeftPos, newLeftPos, lerpPct);
-        rightDoor.position = Vector3.Lerp(oldRightPos, newRightPos, lerpPct);
+        leftDoor.localPosition = Vector3.Lerp(oldLeftPos, newLeftPos, lerpPct);
+        rightDoor.localPosition = Vector3.Lerp(oldRightPos, newRightPos, lerpPct);
     }
 
     void CalculatePos()
     {
-        oldLeftPos = leftDoor.position;
-        oldRightPos = rightDoor.position;
-        newLeftPos = leftDoor.position + Vector3.back * leftDoorOffset;
-        newRightPos = rightDoor.position + Vector3.forward * rightDoorOffset;
+        oldLeftPos = leftDoor.localPosition;
+        oldRightPos = rightDoor.localPosition;
+        newLeftPos = leftDoor.localPosition + Vector3.forward * leftDoorOffset;
+        newRightPos = rightDoor.localPosition + Vector3.back * rightDoorOffset;
     }
 
     public void OpenGates()
