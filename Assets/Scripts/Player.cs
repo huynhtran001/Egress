@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
     // Called from other gameobjects when the player steps into collision range
     // passes along text to game manager to display
     // Reason is because we need to meet 2 "conditions" based on terminal and player script
-    public void WithinRange(string otherTag, Text text)
+    public void WithinRange(string otherTag, Text text, GameObject terminalScreen)
     {
         RaycastHit[] hits;
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -99,13 +99,22 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-
+                    BeginInteraction(terminalScreen);
                 }
 
                 return;
             }
         }
         gameManager.HideText(text);
+    }
+
+    private void BeginInteraction(GameObject terminalScreen)
+    {
+        // pause game
+        Time.timeScale = 0f;
+        terminalScreen.SetActive(true);
+        TerminalScreen terminal = terminalScreen.GetComponent<TerminalScreen>();
+        terminal.StartTerminal();
     }
 
     // helper function

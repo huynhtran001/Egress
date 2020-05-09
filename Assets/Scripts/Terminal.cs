@@ -7,6 +7,7 @@ public class Terminal : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
     [Tooltip("Text to display from canvas (if any)")]
+    [SerializeField] GameObject terminalScreen;
     [SerializeField] Text text;
 
     // Position of the game object that the script is attached to
@@ -53,7 +54,7 @@ public class Terminal : MonoBehaviour
                 // sends raycast where ever the player is looking only when they're standing
                 // within the overlap range.
                 Player player = collider.GetComponent<Player>();
-                player.WithinRange(this.gameObject.tag, text);
+                player.WithinRange(this.gameObject.tag, text, terminalScreen);
                 return;
             }
         }

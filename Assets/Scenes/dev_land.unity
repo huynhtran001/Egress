@@ -1730,6 +1730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+  terminalScreen: {fileID: 549632345671920709}
   text: {fileID: 2033548497}
   terminal: {fileID: 2068044995}
   shape: {x: 3, y: 1, z: 2}

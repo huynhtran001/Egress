@@ -21,17 +21,33 @@ public class TerminalScreen : MonoBehaviour
     void Start()
     {
         ConvertArrayToQueue();
-        WelcomeMessage();
     }
 
     // Update is called once per frame
     void Update()
     {
+        CloseTerminal();
+    }
 
+    private void CloseTerminal()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StopAllCoroutines();
+            Time.timeScale = 1f;
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    public void StartTerminal()
+    {
+        ConvertArrayToQueue();
+        WelcomeMessage();
     }
 
     private void ConvertArrayToQueue()
     {
+        messageQueue.Clear();
         for (int i = 0; i < messages.Length; i++)
         {
             messageQueue.Enqueue(messages[i]);
