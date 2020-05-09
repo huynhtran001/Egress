@@ -29,12 +29,16 @@ public class Player : MonoBehaviour
     private GameObject heldObject = null;
     private List<GameObject> frozenObjects;
 
+    private enum PlayerState { Alive, Interacting, Death}
+    private PlayerState playerState;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         raycastMaxDist = controller.bounds.extents.y;
 
         frozenObjects = new List<GameObject>();
+        playerState = PlayerState.Alive;
     }
 
     private void Update()
@@ -72,6 +76,25 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             UnfreezeAllObjects();
+        }
+    }
+
+    // Called from other gameobjects when the player steps into collision range
+    public void WithinRange(string otherTag)
+    {
+        RaycastHit[] hits;
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        hits = Physics.RaycastAll(ray, maxInteractionDistance);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag(otherTag))
+            {
+                
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    print("TODO: Create terminal hud");
+                }
+            }
         }
     }
 
@@ -128,7 +151,7 @@ public class Player : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            if (hit.collider.CompareTag("Interactable"))
+            if (hit.collider.CompareTag("Pickup"))
             {
                 heldObject = hit.collider.gameObject;
                 // Check to see if frozen. If it is, unfreeze to throw.

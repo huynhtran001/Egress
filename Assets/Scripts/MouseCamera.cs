@@ -76,15 +76,4 @@ public class MouseCamera : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotate, 0f, 0f);
     }
-
-    private void RunTests()
-    {
-        if (objectBody)
-        {
-            print("Parent transform found");
-        } else
-        {
-            print("Parent transform not found");
-        }
-    }
 }
