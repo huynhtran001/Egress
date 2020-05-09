@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Allows user to move the camera around with a mouse
+
 public class MouseCamera : MonoBehaviour
 {
     [SerializeField] float sensitivity = 100f;

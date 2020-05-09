@@ -27,7 +27,19 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayCurrentLevelMusic();
+    }
+
+    public void PlayCurrentLevelMusic()
+    {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
+        PlayClip(clips[currentScene]);
+    }
+
+    // Call after loading next scene
+    public void PlayNextLevelMusic()
+    {
+        int currentScene = SceneManager.GetActiveScene().buildIndex + 1;
         PlayClip(clips[currentScene]);
     }
 

@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     {
         // Load first scene
         SceneManager.LoadScene(1);
+        AudioManager am = FindObjectOfType<AudioManager>();
+        if (am) am.PlayNextLevelMusic();
     }
 
     public void Quit()
