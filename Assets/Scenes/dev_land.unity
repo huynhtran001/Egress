@@ -2006,7 +2006,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messages:
   - This is the test message. We want to see what happens with the current code.
+  - This is the second message. For testing only.
+  - And now, this is the 3rd message.
   targetText: {fileID: 1196455581}
+  timeBetweenMessages: 3
   textDelay: 0.02
 --- !u!224 &549632345671920711 stripped
 RectTransform:

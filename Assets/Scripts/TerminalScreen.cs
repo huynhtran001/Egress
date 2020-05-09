@@ -9,12 +9,18 @@ public class TerminalScreen : MonoBehaviour
     [TextArea(3, 4)] [SerializeField] string[] messages;
     [Tooltip("Drag the main text object to be changed here")]
     [SerializeField] Text targetText;
+    [SerializeField] float timeBetweenMessages = 3f;
     [Tooltip("Delay inbetween character typing rate")]
-    [SerializeField] float textDelay = 0.2f;
+    [SerializeField] float textDelay = 0.02f;
+
+    // Queues are easier to work with coroutines, but keep array of strings
+    // for easy edits from the inspector
+    private Queue<string> messageQueue = new Queue<string>();
 
     // Start is called before the first frame update
     void Start()
     {
+        ConvertArrayToQueue();
         WelcomeMessage();
     }
 
@@ -24,10 +30,21 @@ public class TerminalScreen : MonoBehaviour
 
     }
 
+    private void ConvertArrayToQueue()
+    {
+        for (int i = 0; i < messages.Length; i++)
+        {
+            messageQueue.Enqueue(messages[i]);
+        }
+    }
+
     // Displays all welcome messages
     private void WelcomeMessage()
     {
-        StartCoroutine(DelayText(messages[0]));
+        // base case
+        if (messageQueue.Count <= 0) return;
+        
+        StartCoroutine(DelayText(messageQueue.Dequeue()));
     }
 
     // Gives the effect of having one character "typed" at a time
@@ -39,5 +56,9 @@ public class TerminalScreen : MonoBehaviour
             targetText.text += c;
             yield return new WaitForSecondsRealtime(textDelay);
         }
+
+        // Wait some time, then recursively call itself.
+        yield return new WaitForSecondsRealtime(timeBetweenMessages);
+        WelcomeMessage();
     }
 }
