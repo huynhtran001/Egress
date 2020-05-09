@@ -320,14 +320,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c05a587953cead4cb3d70c113613960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  password: 
+  gateToOpen: {fileID: 0}
+  password: LEAVE
+  terminalText: {fileID: 1196455581}
   inputField: {fileID: 1762922852}
   inputText: {fileID: 126041248}
   messages:
   - This is the test message. We want to see what happens with the current code.
   - This is the second message. For testing only.
   - And now, this is the 3rd message.
-  targetText: {fileID: 1196455581}
   timeBetweenMessages: 3
   textDelay: 0.02
 --- !u!1 &1762922852
