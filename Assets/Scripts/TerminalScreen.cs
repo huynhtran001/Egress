@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class TerminalScreen : MonoBehaviour
 {
+    [Tooltip("Not case sensitive")]
+    [SerializeField] string password;
     [SerializeField] GameObject inputField;
     [SerializeField] Text inputText;
     [Tooltip("Messages to display when screen boots up")]
@@ -44,7 +46,10 @@ public class TerminalScreen : MonoBehaviour
         bool keyPress = Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return); 
         if (EventSystem.current.currentSelectedGameObject.Equals(inputField) && keyPress)
         {
-            print(inputText.text);
+            if (inputText.text.ToUpper().Equals(password.ToUpper()))
+            {
+                //TODO: open door or what have you
+            }
         }
     }
 
