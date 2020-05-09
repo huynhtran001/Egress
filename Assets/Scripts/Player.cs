@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     private GameManager gameManager;
     private CharacterController controller;
+    private MouseCamera playerCam;
+    [SerializeField] GameObject hud;
     [SerializeField] float movementSpeed = 15f;
     [SerializeField] float jumpPower = 0.1f;
     [Tooltip("Controls how long the player jumps for when jump is pressed")]
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
         playerState = PlayerState.Alive;
 
         gameManager = FindObjectOfType<GameManager>();
+        playerCam = GetComponentInChildren<MouseCamera>();
     }
 
     private void Update()
@@ -114,7 +117,10 @@ public class Player : MonoBehaviour
         Time.timeScale = 0f;
         terminalScreen.SetActive(true);
         TerminalScreen terminal = terminalScreen.GetComponent<TerminalScreen>();
-        terminal.StartTerminal();
+        Cursor.lockState = CursorLockMode.None;
+        hud.SetActive(false);
+        
+        terminal.StartTerminal(hud);
     }
 
     // helper function

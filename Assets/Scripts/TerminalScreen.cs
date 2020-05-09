@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TerminalScreen : MonoBehaviour
 {
+    [SerializeField] GameObject inputField;
+    [SerializeField] Text inputText;
     [Tooltip("Messages to display when screen boots up")]
     [TextArea(3, 4)] [SerializeField] string[] messages;
     [Tooltip("Drag the main text object to be changed here")]
@@ -17,6 +20,10 @@ public class TerminalScreen : MonoBehaviour
     // for easy edits from the inspector
     private Queue<string> messageQueue = new Queue<string>();
 
+    // to display and hide after interacting
+    private GameObject hud;
+    private bool currentlyInteracting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,20 +34,37 @@ public class TerminalScreen : MonoBehaviour
     void Update()
     {
         CloseTerminal();
+        InputField();
+    }
+
+    private void InputField()
+    {
+        if (!EventSystem.current.currentSelectedGameObject) return;
+
+        bool keyPress = Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return); 
+        if (EventSystem.current.currentSelectedGameObject.Equals(inputField) && keyPress)
+        {
+            print(inputText.text);
+        }
     }
 
     private void CloseTerminal()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && currentlyInteracting)
         {
             StopAllCoroutines();
             Time.timeScale = 1f;
             this.gameObject.SetActive(false);
+            hud.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            currentlyInteracting = false;
         }
     }
 
-    public void StartTerminal()
+    public void StartTerminal(GameObject hud)
     {
+        this.hud = hud;
+        currentlyInteracting = true;
         ConvertArrayToQueue();
         WelcomeMessage();
     }
