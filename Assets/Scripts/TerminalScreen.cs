@@ -7,16 +7,20 @@ using UnityEngine.EventSystems;
 public class TerminalScreen : MonoBehaviour
 {
     [Tooltip("Not case sensitive")]
+    [SerializeField] Gate gateToOpen;
     [SerializeField] string password;
+    [Tooltip("Drag the main text object to be changed here")]
+    [SerializeField] Text terminalText;
     [SerializeField] GameObject inputField;
     [SerializeField] Text inputText;
     [Tooltip("Messages to display when screen boots up")]
     [TextArea(3, 4)] [SerializeField] string[] messages;
-    [Tooltip("Drag the main text object to be changed here")]
-    [SerializeField] Text targetText;
     [SerializeField] float timeBetweenMessages = 3f;
     [Tooltip("Delay inbetween character typing rate")]
     [SerializeField] float textDelay = 0.02f;
+
+    // For use with event system
+    private InputField actualInputField;
 
     // Queues are easier to work with coroutines, but keep array of strings
     // for easy edits from the inspector
@@ -30,40 +34,48 @@ public class TerminalScreen : MonoBehaviour
     void Start()
     {
         ConvertArrayToQueue();
+        actualInputField = inputField.GetComponent<InputField>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CloseTerminal();
+        TryToCloseTerminal();
         InputField();
     }
 
     private void InputField()
     {
-        if (!EventSystem.current.currentSelectedGameObject) return;
+        // Just focuses on the input field so we can type
+        if (!EventSystem.current.currentSelectedGameObject) actualInputField.Select();
 
         bool keyPress = Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return); 
         if (EventSystem.current.currentSelectedGameObject.Equals(inputField) && keyPress)
         {
             if (inputText.text.ToUpper().Equals(password.ToUpper()))
             {
-                //TODO: open door or what have you
+                gateToOpen.OpenGates();
+                CloseTerminal();
             }
+        }
+    }
+
+    private void TryToCloseTerminal()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && currentlyInteracting)
+        {
+            CloseTerminal();
         }
     }
 
     private void CloseTerminal()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && currentlyInteracting)
-        {
-            StopAllCoroutines();
-            Time.timeScale = 1f;
-            this.gameObject.SetActive(false);
-            hud.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            currentlyInteracting = false;
-        }
+        StopAllCoroutines();
+        Time.timeScale = 1f;
+        this.gameObject.SetActive(false);
+        hud.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        currentlyInteracting = false;
     }
 
     public void StartTerminal(GameObject hud)
@@ -95,10 +107,10 @@ public class TerminalScreen : MonoBehaviour
     // Gives the effect of having one character "typed" at a time
     IEnumerator DelayText(string msg)
     {
-        targetText.text = "";
+        terminalText.text = "";
         foreach (char c in msg.ToCharArray())
         {
-            targetText.text += c;
+            terminalText.text += c;
             yield return new WaitForSecondsRealtime(textDelay);
         }
 
