@@ -9,8 +9,9 @@ public class TerminalScreen : MonoBehaviour
     [Tooltip("Not case sensitive")]
     [SerializeField] LastDoor doorToOpen;
     [SerializeField] string password;
-    [Tooltip("Drag the main text object to be changed here")]
+    [Tooltip("Drag the main text object to be changed here, should be a child of this game object")]
     [SerializeField] Text terminalText;
+    [Tooltip("Leave blank if you don't want a message to show")]
     [SerializeField] GameObject inputField;
     [SerializeField] Text inputText;
     [Tooltip("Messages to display when screen boots up")]
@@ -33,15 +34,14 @@ public class TerminalScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ConvertArrayToQueue();
-        actualInputField = inputField.GetComponent<InputField>();
+        if (inputField) actualInputField = inputField.GetComponent<InputField>();
     }
 
     // Update is called once per frame
     void Update()
     {
         TryToCloseTerminal();
-        InputField();
+        if (inputField) InputField();
     }
 
     private void InputField()
