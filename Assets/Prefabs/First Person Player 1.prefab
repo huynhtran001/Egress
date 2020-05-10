@@ -64,12 +64,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75106cede91636b4a81c2bda7f6bdad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hud: {fileID: 0}
   movementSpeed: 15
   jumpPower: 0.1
   secondsToApplyJump: 0.5
   maxInteractionDistance: 7
   forceMultiplier: 5000
   raycastOffset: 0.5
+  playerState: 0
 --- !u!1 &2179606033434395703
 GameObject:
   m_ObjectHideFlags: 0

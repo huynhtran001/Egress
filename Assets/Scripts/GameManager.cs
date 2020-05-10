@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
+    }
+
     public void RestartLevel()
     {
         PauseMenuOff();
