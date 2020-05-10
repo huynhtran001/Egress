@@ -8,22 +8,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] clips;
 
-    private void Awake()
-    {
-        // Singleton
-        int x = FindObjectsOfType<AudioManager>().Length;
-
-        if (x > 1)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {

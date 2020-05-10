@@ -36,22 +36,6 @@ public class Player : MonoBehaviour
     public enum PlayerState { Alive, Interacting, Death, Paused}
     public PlayerState playerState;
 
-    private void Awake()
-    {
-        // Singleton
-        int x = FindObjectsOfType<Player>().Length;
-
-        if (x > 1)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -70,7 +54,6 @@ public class Player : MonoBehaviour
         Interact();
         Jump();
         MoveObject();
-        print(playerState);
     }
 
     private void FixedUpdate()

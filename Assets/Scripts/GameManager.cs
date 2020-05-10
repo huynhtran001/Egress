@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,27 +10,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] GameObject playerHud;
 
-    private void Awake()
-    {
-        // Singleton
-        int x = FindObjectsOfType<GameManager>().Length;
-
-        if (x > 1)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     private void Update()
     {
         PauseMenu();
     }
 
+
+    // We can refactor pause menu functionality into its own script if we have more time
     void PauseMenu()
     {
         if (!(player.playerState == Player.PlayerState.Alive || player.playerState == Player.PlayerState.Paused)) return;
@@ -43,16 +30,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void PauseMenuOff()
+    public void RestartLevel()
     {
+        PauseMenuOff();
+        int x = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(x);
+    }
+
+    public void PauseMenuOff()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
         player.playerState = Player.PlayerState.Alive;
         Time.timeScale = 1f;
         playerHud.SetActive(true);
         pauseMenu.SetActive(false);
     }
 
-    private void PauseMenuOn()
+    public void PauseMenuOn()
     {
+        Cursor.lockState = CursorLockMode.None;
         player.playerState = Player.PlayerState.Paused;
         Time.timeScale = 0f;
         playerHud.SetActive(false);
