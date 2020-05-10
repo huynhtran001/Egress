@@ -32,12 +32,15 @@ public class Player : MonoBehaviour
     // Global references to things we need to move the interactable around
     private GameObject heldObject = null;
     private List<GameObject> frozenObjects;
+    private GameObject lastHeldObject = null;
 
     // Audio section
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip terminalSound;
     [SerializeField] AudioClip jumpSound;
     [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip freezeSound;
+    [SerializeField] AudioClip unfreezeSound;
 
     public enum PlayerState { Alive, Interacting, Death, Paused}
     public PlayerState playerState;
@@ -82,7 +85,7 @@ public class Player : MonoBehaviour
             ThrowObject();
         }
 
-        if (heldObject && Input.GetKeyDown(KeyCode.F))
+        if (heldObject && Input.GetKeyDown(KeyCode.F) || lastHeldObject && Input.GetKeyDown(KeyCode.F))
         {
             FreezeObject();
         }
@@ -172,6 +175,8 @@ public class Player : MonoBehaviour
                 rb.useGravity = true;
             }
         }
+        if (frozenObjects.Count > 0) PlayClip(unfreezeSound);
+
         frozenObjects.Clear();
     }
 
@@ -187,13 +192,24 @@ public class Player : MonoBehaviour
     private void FreezeObject()
     {
         // Freeze object by making it kinematic
-        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-        if (rb) rb.isKinematic = true;
+        if (heldObject)
+        {
+            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+            if (rb) rb.isKinematic = true;
 
-        // Add to list of frozen objects, then also set reference to current held
-        // object to null
-        frozenObjects.Add(heldObject);
-        heldObject = null;
+            // Add to list of frozen objects, then also set reference to current held
+            // object to null
+            frozenObjects.Add(heldObject);
+            heldObject = null;
+            PlayClip(freezeSound);
+        } else if (lastHeldObject)
+        {
+            Rigidbody rb = lastHeldObject.GetComponent<Rigidbody>();
+            if (rb) rb.isKinematic = true;
+            frozenObjects.Add(lastHeldObject);
+            lastHeldObject = null;
+            PlayClip(freezeSound);
+        }
     }
 
     // helper function
@@ -240,6 +256,7 @@ public class Player : MonoBehaviour
         Rigidbody rb = heldObject.GetComponent<Rigidbody>();
 
         // Make global ref null so MoveObject() doesn't override the object's position
+        lastHeldObject = heldObject;
         heldObject = null;
 
         Vector3 forceDirection = Camera.main.transform.forward;
