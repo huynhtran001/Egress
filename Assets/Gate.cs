@@ -2,6 +2,9 @@
 
 public class Gate : MonoBehaviour
 {
+    // Audio
+    [SerializeField] AudioSource audioSource;
+
     // For use with the big gate with 2 sliding doors
     [SerializeField] Transform leftDoor;
     [SerializeField] Transform rightDoor;
@@ -50,6 +53,7 @@ public class Gate : MonoBehaviour
 
     public void OpenGates()
     {
+        audioSource.Play();
         stillLocked = false;
     }
 }

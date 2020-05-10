@@ -80,6 +80,7 @@ public class TerminalScreen : MonoBehaviour
         // a "hack". need player reference to change player state
         Player player = FindObjectOfType<Player>();
         player.playerState = Player.PlayerState.Alive;
+        player.PlayTerminalSound();
     }
 
     public void StartTerminal(GameObject hud)

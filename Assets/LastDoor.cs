@@ -5,6 +5,7 @@ using UnityEngine;
 public class LastDoor : MonoBehaviour
 {
     [SerializeField] Transform door;
+    [SerializeField] AudioSource source;
 
     [Tooltip("Slides doors open. Takes in a multiplier of how much")]
     [SerializeField] float doorOffset = 1.25f;
@@ -47,5 +48,6 @@ public class LastDoor : MonoBehaviour
     public void OpenDoor()
     {
         stillLocked = false;
+        source.Play();
     }
 }

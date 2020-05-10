@@ -33,6 +33,12 @@ public class Player : MonoBehaviour
     private GameObject heldObject = null;
     private List<GameObject> frozenObjects;
 
+    // Audio section
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip terminalSound;
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip deathSound;
+
     public enum PlayerState { Alive, Interacting, Death, Paused}
     public PlayerState playerState;
 
@@ -111,8 +117,23 @@ public class Player : MonoBehaviour
         gameManager.HideText(text);
     }
 
+    private void PlayClip(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    public void PlayTerminalSound()
+    {
+        audioSource.Stop();
+        audioSource.clip = terminalSound;
+        audioSource.Play();
+    }
+
     private void BeginInteraction(GameObject terminalScreen)
     {
+        PlayClip(terminalSound);
         // pause game
         Time.timeScale = 0f;
         terminalScreen.SetActive(true);
@@ -284,6 +305,7 @@ public class Player : MonoBehaviour
         if (grounded && Input.GetButtonDown("Jump"))
         {
             isJumping = true;
+            PlayClip(jumpSound);
         }
 
     }

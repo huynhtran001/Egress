@@ -11,9 +11,11 @@ public class PressureSwitch : MonoBehaviour
     [Tooltip("Offset of the detection range (Turn on gizmos)")]
     [SerializeField] Vector3 offsetFromObject = new Vector3(0, 1f, 2.5f);
 
+    private bool hasBeenActivated = false;
+
     private void FixedUpdate()
     {
-        DetectPlayer();
+        if (!hasBeenActivated) DetectPlayer();
     }
 
     private void DetectPlayer()
@@ -31,6 +33,7 @@ public class PressureSwitch : MonoBehaviour
         {
             if (collider.CompareTag("Player"))
             {
+                hasBeenActivated = true;
                 gateToOpen.OpenGates();
             }
         }
