@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (playerState == PlayerState.Death) return;
         RaycastDebugLines();
         Interact();
         Jump();
@@ -90,6 +91,20 @@ public class Player : MonoBehaviour
         {
             UnfreezeAllObjects();
         }
+    }
+
+    public void Die()
+    {
+        PlayClip(deathSound);
+        playerState = PlayerState.Death;
+        StartCoroutine(AfterDeath());
+    }
+
+    IEnumerator AfterDeath()
+    {
+        // death timer before reloading
+        yield return new WaitForSecondsRealtime(3f);
+        gameManager.RestartLevel();
     }
 
     // Called from other gameobjects when the player steps into collision range
@@ -275,8 +290,15 @@ public class Player : MonoBehaviour
 
     private void BasicMovement()
     {
-        float xMove = Input.GetAxisRaw("Horizontal");
-        float zMove = Input.GetAxisRaw("Vertical");
+        float xMove = 0f;
+        float zMove = 0f;
+
+        if (playerState == PlayerState.Alive)
+        {
+            xMove = Input.GetAxisRaw("Horizontal");
+            zMove = Input.GetAxisRaw("Vertical");
+        }
+        
 
         // Since we want to move right/forward relative to the player, we
         // use transform.right/forward to get that direction for us
