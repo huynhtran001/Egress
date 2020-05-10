@@ -27,7 +27,7 @@ public class Terminal : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         DetectPlayer();
     }

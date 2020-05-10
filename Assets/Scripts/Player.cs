@@ -303,7 +303,7 @@ public class Player : MonoBehaviour
     private void ApplyGravity()
     {
         // Freefall formula = 1/2 * g * t^2
-        currentFallingVelocity += Physics.gravity * 0.5f * Time.fixedDeltaTime * Time.fixedDeltaTime;
+        currentFallingVelocity += Physics.gravity * 0.5f * Time.fixedDeltaTime * Time.fixedDeltaTime * Time.fixedDeltaTime * Time.fixedDeltaTime;
     }
 
     private void BasicMovement()
