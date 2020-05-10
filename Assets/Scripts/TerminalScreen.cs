@@ -74,6 +74,7 @@ public class TerminalScreen : MonoBehaviour
         Time.timeScale = 1f;
         this.gameObject.SetActive(false);
         hud.SetActive(true);
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         currentlyInteracting = false;
 

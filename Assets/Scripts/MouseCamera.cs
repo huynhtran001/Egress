@@ -25,6 +25,7 @@ public class MouseCamera : MonoBehaviour
         FindParentTransform();
 
         // Hides cursor
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 

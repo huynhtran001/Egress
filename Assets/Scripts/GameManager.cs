@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseMenuOff()
     {
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         player.playerState = Player.PlayerState.Alive;
         Time.timeScale = 1f;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseMenuOn()
     {
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         player.playerState = Player.PlayerState.Paused;
         Time.timeScale = 0f;

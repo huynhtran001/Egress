@@ -153,6 +153,7 @@ public class Player : MonoBehaviour
         Time.timeScale = 0f;
         terminalScreen.SetActive(true);
         TerminalScreen terminal = terminalScreen.GetComponent<TerminalScreen>();
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         hud.SetActive(false);
         playerState = PlayerState.Interacting;
