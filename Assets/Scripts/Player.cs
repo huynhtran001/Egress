@@ -33,8 +33,24 @@ public class Player : MonoBehaviour
     private GameObject heldObject = null;
     private List<GameObject> frozenObjects;
 
-    private enum PlayerState { Alive, Interacting, Death}
-    private PlayerState playerState;
+    public enum PlayerState { Alive, Interacting, Death, Paused}
+    public PlayerState playerState;
+
+    private void Awake()
+    {
+        // Singleton
+        int x = FindObjectsOfType<Player>().Length;
+
+        if (x > 1)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -54,6 +70,7 @@ public class Player : MonoBehaviour
         Interact();
         Jump();
         MoveObject();
+        print(playerState);
     }
 
     private void FixedUpdate()
@@ -119,7 +136,7 @@ public class Player : MonoBehaviour
         TerminalScreen terminal = terminalScreen.GetComponent<TerminalScreen>();
         Cursor.lockState = CursorLockMode.None;
         hud.SetActive(false);
-        
+        playerState = PlayerState.Interacting;
         terminal.StartTerminal(hud);
     }
 

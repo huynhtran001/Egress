@@ -76,6 +76,10 @@ public class TerminalScreen : MonoBehaviour
         hud.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         currentlyInteracting = false;
+
+        // a "hack". need player reference to change player state
+        Player player = FindObjectOfType<Player>();
+        player.playerState = Player.PlayerState.Alive;
     }
 
     public void StartTerminal(GameObject hud)

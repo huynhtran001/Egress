@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] Player player;
+    [SerializeField] GameObject playerHud;
+
     private void Awake()
     {
         // Singleton
@@ -19,6 +23,40 @@ public class GameManager : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        PauseMenu();
+    }
+
+    void PauseMenu()
+    {
+        if (!(player.playerState == Player.PlayerState.Alive || player.playerState == Player.PlayerState.Paused)) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape) && player.playerState == Player.PlayerState.Alive)
+        {
+            PauseMenuOn();
+        } else if (Input.GetKeyDown(KeyCode.Escape) && player.playerState == Player.PlayerState.Paused)
+        {
+            PauseMenuOff();
+        }
+    }
+
+    private void PauseMenuOff()
+    {
+        player.playerState = Player.PlayerState.Alive;
+        Time.timeScale = 1f;
+        playerHud.SetActive(true);
+        pauseMenu.SetActive(false);
+    }
+
+    private void PauseMenuOn()
+    {
+        player.playerState = Player.PlayerState.Paused;
+        Time.timeScale = 0f;
+        playerHud.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     public void DisplayText(Text text)

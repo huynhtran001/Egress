@@ -996,7 +996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012622640994, guid: d49d5f9ac8c6b7749a634985e6e7e096, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.140495
+      value: -13.01
       objectReference: {fileID: 0}
     - target: {fileID: 4000012622640994, guid: d49d5f9ac8c6b7749a634985e6e7e096, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1360,6 +1360,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 382c882e14c59d5488c886818a89e646, type: 3}
+--- !u!114 &1380325583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2179606032680044675, guid: 382c882e14c59d5488c886818a89e646,
+    type: 3}
+  m_PrefabInstance: {fileID: 1380325582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75106cede91636b4a81c2bda7f6bdad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1405585834
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,6 +2241,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 549632345671920708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &549632345671920710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1770344321, guid: 32d0baa69d0b2ef48bb9eab4cb96d2a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 549632345671920708}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4797566496340508133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2236,6 +2254,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3193404663386638440, guid: 1c4922726741a52429e0639ce80f144c,
+        type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 549632345671920710}
+    - target: {fileID: 3193404663386638440, guid: 1c4922726741a52429e0639ce80f144c,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1380325583}
+    - target: {fileID: 3193404663386638440, guid: 1c4922726741a52429e0639ce80f144c,
+        type: 3}
+      propertyPath: playerHud
+      value: 
+      objectReference: {fileID: 787611571}
     - target: {fileID: 8631729597393233117, guid: 1c4922726741a52429e0639ce80f144c,
         type: 3}
       propertyPath: m_LocalPosition.x
