@@ -23327,7 +23327,7 @@ PrefabInstance:
         type: 3}
       propertyPath: hud
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 348570079}
     - target: {fileID: 2179606032680044675, guid: 382c882e14c59d5488c886818a89e646,
         type: 3}
       propertyPath: raycastOffset
