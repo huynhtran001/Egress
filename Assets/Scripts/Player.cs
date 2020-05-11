@@ -151,6 +151,7 @@ public class Player : MonoBehaviour
 
     private void BeginInteraction(GameObject terminalScreen)
     {
+        if (playerState != PlayerState.Alive) return;
         PlayClip(terminalSound);
         // pause game
         Time.timeScale = 0f;
