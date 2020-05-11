@@ -20453,7 +20453,7 @@ MonoBehaviour:
   inputField: {fileID: 0}
   inputText: {fileID: 0}
   messages:
-  - L = 01
+  - e = 00
   timeBetweenMessages: 3
   textDelay: 0.02
 --- !u!114 &1922929820
